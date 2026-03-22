@@ -1,0 +1,25 @@
+phases:
+  ao.security-implement:
+    mode: agent
+    agent: ao.security-agent
+    directive: "Implement the task. Read requirements, write code, commit."
+    capabilities:
+      mutates_state: true
+
+workflows:
+  - id: ao.security/standard
+    name: "ao-skill-security Standard"
+    description: "Plan → Implement → Push → PR"
+    phases:
+      - ao.security-implement
+      - push-branch
+      - create-pr
+      - pr-review
+
+  - id: ao.security/quick-fix
+    name: "ao-skill-security Quick Fix"
+    description: "Implement → Push → PR"
+    phases:
+      - ao.security-implement
+      - push-branch
+      - create-pr
