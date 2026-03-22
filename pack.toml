@@ -3,7 +3,7 @@ id = "ao.security"
 version = "0.1.0"
 kind = "skill-pack"
 title = "ao-skill-security"
-description = "Scan for OWASP top 10, CVEs, hardcoded secrets, auth misconfigurations"
+description = "Scan for OWASP top 10, CVEs, hardcoded secrets, auth misconfigurations, SQL injection"
 
 [ownership]
 mode = "community"
@@ -19,6 +19,8 @@ root = "workflows"
 exports = [
   "ao.security/standard",
   "ao.security/quick-fix",
+  "ao.security/sqli-scan",
+  "ao.security/sqli-scan-and-fix",
 ]
 
 [runtime]
@@ -26,3 +28,6 @@ agent_overlay = "runtime/agents.yaml"
 
 [permissions]
 tools = ["ao", "github"]
+
+[skills]
+sqli_scanner = { path = "skills/sqli-scanner.md", description = "SQL injection vulnerability detection via static analysis" }
