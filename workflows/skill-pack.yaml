@@ -71,6 +71,17 @@ phases:
       static_analysis: true
     timeout_secs: 600
 
+  ao.security.xss-scan:
+    mode: agent
+    agent: ao.security.xss-scanner
+    directive: "Scan the codebase for Cross-Site Scripting (XSS) vulnerabilities. Analyze all source files, detect dangerous DOM manipulation patterns (innerHTML, dangerouslySetInnerHTML), unsafe eval/Function usage, template injection vectors, and improper sanitization. Generate a structured JSON report with findings categorized by severity. Include file paths, line numbers, code snippets, and remediation guidance for each vulnerability."
+    capabilities:
+      reads_code: true
+      produces_artifacts: true
+      security_scanning: true
+      static_analysis: true
+    timeout_secs: 600
+
 workflows:
   - id: ao.security/standard
     name: "ao-skill-security Standard"
@@ -191,6 +202,22 @@ workflows:
     description: "Scan for SSRF vulnerabilities → Review findings → Implement fixes → Push → PR"
     phases:
       - ao.security.ssrf-scan
+      - ao.security-implement
+      - push-branch
+      - create-pr
+      - pr-review
+
+  - id: ao.security/xss-scan
+    name: "XSS Scanner"
+    description: "Scan codebase for Cross-Site Scripting (XSS) vulnerabilities and generate security report"
+    phases:
+      - ao.security.xss-scan
+
+  - id: ao.security/xss-scan-and-fix
+    name: "XSS Scan and Remediate"
+    description: "Scan for XSS vulnerabilities → Review findings → Implement fixes → Push → PR"
+    phases:
+      - ao.security.xss-scan
       - ao.security-implement
       - push-branch
       - create-pr

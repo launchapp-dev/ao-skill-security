@@ -32,6 +32,8 @@ exports = [
   "ao.security/report-only",
   "ao.security/ssrf-scan",
   "ao.security/ssrf-scan-and-fix",
+  "ao.security/xss-scan",
+  "ao.security/xss-scan-and-fix",
 ]
 
 [runtime]
@@ -46,3 +48,4 @@ dependency_auditor = { path = "skills/dependency-auditor.md", description = "npm
 security_report = { path = "skills/security-report.md", description = "Generate structured security reports in JSON and SARIF formats with CI/CD integration" }
 container_scanner = { path = "skills/container-security-scanner.md", description = "Dockerfile and docker-compose security analysis for container vulnerabilities" }
 ssrf_scanner = { path = "skills/ssrf-scanner.md", description = "SSRF (Server-Side Request Forgery) vulnerability detection via static analysis of URL handling patterns" }
+xss_scanner = { path = "skills/xss-scanner.md", description = "XSS (Cross-Site Scripting) vulnerability detection via static analysis of HTML/JS rendering patterns" }
