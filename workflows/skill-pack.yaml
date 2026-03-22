@@ -38,6 +38,17 @@ phases:
       security_scanning: true
     timeout_secs: 600
 
+  ao.security.container-scan:
+    mode: agent
+    agent: ao.security.container-scanner
+    directive: "Scan Dockerfiles, docker-compose.yml, and container configuration files for security vulnerabilities and misconfigurations. Detect exposed Docker sockets, running as root, missing HEALTHCHECK, use of :latest tags, privilege escalation patterns, sensitive volume mounts, insecure base images, and missing resource limits. Generate a structured JSON report with findings categorized by severity (Critical/High/Medium/Low/Info) including file paths, line numbers, code snippets, and remediation guidance."
+    capabilities:
+      reads_code: true
+      produces_artifacts: true
+      security_scanning: true
+      static_analysis: true
+    timeout_secs: 600
+
 workflows:
   - id: ao.security/standard
     name: "ao-skill-security Standard"
@@ -93,6 +104,7 @@ workflows:
     description: "Run all security scanners → Generate structured reports in JSON and SARIF formats"
     phases:
       - ao.security.sqli-scan
+      - ao.security.container-scan
       - ao.security.generate-report
 
   - id: ao.security/full-audit
@@ -100,6 +112,7 @@ workflows:
     description: "Comprehensive security scan → Generate reports → Review → Fix → Push → PR"
     phases:
       - ao.security.sqli-scan
+      - ao.security.container-scan
       - ao.security.generate-report
       - ao.security-implement
       - push-branch
@@ -111,3 +124,19 @@ workflows:
     description: "Generate structured security report from existing scanner findings"
     phases:
       - ao.security.generate-report
+
+  - id: ao.security/container-scan
+    name: "Container Security Scan"
+    description: "Scan Dockerfiles and docker-compose files for container security vulnerabilities"
+    phases:
+      - ao.security.container-scan
+
+  - id: ao.security/container-scan-and-fix
+    name: "Container Security Scan and Remediate"
+    description: "Scan for container security issues → Review findings → Implement fixes → Push → PR"
+    phases:
+      - ao.security.container-scan
+      - ao.security-implement
+      - push-branch
+      - create-pr
+      - pr-review
