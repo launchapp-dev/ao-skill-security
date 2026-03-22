@@ -25,6 +25,8 @@ exports = [
   "ao.security/dependency-audit-and-fix",
   "ao.security/container-scan",
   "ao.security/container-scan-and-fix",
+  "ao.security/deserialization-scan",
+  "ao.security/deserialization-scan-and-fix",
   "ao.security/scan-and-report",
   "ao.security/full-audit",
   "ao.security/report-only",
@@ -41,3 +43,4 @@ sqli_scanner = { path = "skills/sqli-scanner.md", description = "SQL injection v
 dependency_auditor = { path = "skills/dependency-auditor.md", description = "npm dependency CVE scanning and security auditing" }
 security_report = { path = "skills/security-report.md", description = "Generate structured security reports in JSON and SARIF formats with CI/CD integration" }
 container_scanner = { path = "skills/container-security-scanner.md", description = "Dockerfile and docker-compose security analysis for container vulnerabilities" }
+deserialization_scanner = { path = "skills/deserialization-scanner.md", description = "Scan for unsafe deserialization patterns, insecure pickle/yaml.loads usage, and JavaScript prototype pollution vulnerabilities" }

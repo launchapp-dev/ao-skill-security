@@ -38,6 +38,17 @@ phases:
       security_scanning: true
     timeout_secs: 600
 
+  ao.security.deserialization-scan:
+    mode: agent
+    agent: ao.security.deserialization-scanner
+    directive: "Scan the codebase for unsafe deserialization patterns, insecure pickle/yaml.loads usage, YAML unsafe loading, JavaScript prototype pollution vulnerabilities, and unsafe deserialization in Java, Ruby, .NET, and PHP. Analyze all source files, detect dangerous patterns, trace user input to deserialization sinks, and generate a structured JSON report with findings categorized by severity (Critical/High/Medium/Low/Info) including file paths, line numbers, code snippets, and remediation guidance for each vulnerability."
+    capabilities:
+      reads_code: true
+      produces_artifacts: true
+      security_scanning: true
+      static_analysis: true
+    timeout_secs: 600
+
   ao.security.container-scan:
     mode: agent
     agent: ao.security.container-scanner
@@ -124,6 +135,22 @@ workflows:
     description: "Generate structured security report from existing scanner findings"
     phases:
       - ao.security.generate-report
+
+  - id: ao.security/deserialization-scan
+    name: "Unsafe Deserialization Scanner"
+    description: "Scan codebase for unsafe deserialization patterns, insecure pickle/yaml.loads usage, and JavaScript prototype pollution vulnerabilities"
+    phases:
+      - ao.security.deserialization-scan
+
+  - id: ao.security/deserialization-scan-and-fix
+    name: "Unsafe Deserialization Scan and Remediate"
+    description: "Scan for unsafe deserialization and prototype pollution → Review findings → Implement fixes → Push → PR"
+    phases:
+      - ao.security.deserialization-scan
+      - ao.security-implement
+      - push-branch
+      - create-pr
+      - pr-review
 
   - id: ao.security/container-scan
     name: "Container Security Scan"
