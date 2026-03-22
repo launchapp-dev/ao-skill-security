@@ -21,6 +21,8 @@ exports = [
   "ao.security/quick-fix",
   "ao.security/sqli-scan",
   "ao.security/sqli-scan-and-fix",
+  "ao.security/dependency-audit",
+  "ao.security/dependency-audit-and-fix",
 ]
 
 [runtime]
@@ -31,3 +33,4 @@ tools = ["ao", "github"]
 
 [skills]
 sqli_scanner = { path = "skills/sqli-scanner.md", description = "SQL injection vulnerability detection via static analysis" }
+dependency_auditor = { path = "skills/dependency-auditor.md", description = "npm dependency CVE scanning and security auditing" }
