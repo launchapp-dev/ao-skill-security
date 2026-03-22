@@ -19,6 +19,7 @@ root = "workflows"
 exports = [
   "ao.security/standard",
   "ao.security/quick-fix",
+  "ao.security/path-traversal-scan",
 ]
 
 [runtime]

@@ -6,6 +6,41 @@ phases:
     capabilities:
       mutates_state: true
 
+  ao.path-traversal-scan:
+    mode: agent
+    agent: ao.path-traversal-scanner
+    directive: |
+      Scan the codebase for path traversal, LFI, and zip slip vulnerabilities.
+      
+      TARGET AREAS:
+      - File system operations (read/write/delete)
+      - File inclusion and dynamic imports
+      - Archive extraction code
+      - File upload handling
+      - Static file serving endpoints
+      - Template engines with file paths
+      
+      ANALYSIS REQUIREMENTS:
+      1. Identify all file operation sinks in the codebase
+      2. Trace user input sources to these sinks
+      3. Evaluate validation and sanitization measures
+      4. Classify severity (critical/high/medium/low)
+      5. Generate detailed vulnerability report
+      
+      OUTPUT:
+      - Create a vulnerability report in docs/security/path-traversal-scan.md
+      - Include: file, line, code snippet, severity, remediation
+      - Provide proof-of-concept exploit paths for critical issues
+      - Reference OWASP/CWE standards
+      
+      DO NOT:
+      - Modify code (scan only, report findings)
+      - Report false positives without verification
+      - Include test files in vulnerability count
+    capabilities:
+      mutates_state: false
+      reads_code: true
+
 workflows:
   - id: ao.security/standard
     name: "ao-skill-security Standard"
@@ -21,5 +56,13 @@ workflows:
     description: "Implement → Push → PR"
     phases:
       - ao.security-implement
+      - push-branch
+      - create-pr
+
+  - id: ao.security/path-traversal-scan
+    name: "Path Traversal Vulnerability Scanner"
+    description: "Scan for path traversal, LFI, and zip slip vulnerabilities"
+    phases:
+      - ao.path-traversal-scan
       - push-branch
       - create-pr
