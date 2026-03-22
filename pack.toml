@@ -3,7 +3,7 @@ id = "ao.security"
 version = "0.1.0"
 kind = "skill-pack"
 title = "ao-skill-security"
-description = "Scan for OWASP top 10, CVEs, hardcoded secrets, auth misconfigurations, SQL injection"
+description = "Scan for OWASP top 10, CVEs, hardcoded secrets, auth misconfigurations, SQL injection, SSRF, container security"
 
 [ownership]
 mode = "community"
@@ -28,6 +28,8 @@ exports = [
   "ao.security/scan-and-report",
   "ao.security/full-audit",
   "ao.security/report-only",
+  "ao.security/ssrf-scan",
+  "ao.security/ssrf-scan-and-fix",
 ]
 
 [runtime]
@@ -41,3 +43,4 @@ sqli_scanner = { path = "skills/sqli-scanner.md", description = "SQL injection v
 dependency_auditor = { path = "skills/dependency-auditor.md", description = "npm dependency CVE scanning and security auditing" }
 security_report = { path = "skills/security-report.md", description = "Generate structured security reports in JSON and SARIF formats with CI/CD integration" }
 container_scanner = { path = "skills/container-security-scanner.md", description = "Dockerfile and docker-compose security analysis for container vulnerabilities" }
+ssrf_scanner = { path = "skills/ssrf-scanner.md", description = "SSRF (Server-Side Request Forgery) vulnerability detection via static analysis of URL handling patterns" }
