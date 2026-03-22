@@ -49,6 +49,17 @@ phases:
       static_analysis: true
     timeout_secs: 600
 
+  ao.security.ssrf-scan:
+    mode: agent
+    agent: ao.security.ssrf-scanner
+    directive: "Scan the codebase for Server-Side Request Forgery (SSRF) vulnerabilities. Analyze all source files, detect unsafe URL handling patterns, trace user input to HTTP request operations, identify access to internal/cloud metadata endpoints, and generate a structured JSON report with findings categorized by severity. Include file paths, line numbers, code snippets, and remediation guidance for each vulnerability."
+    capabilities:
+      reads_code: true
+      produces_artifacts: true
+      security_scanning: true
+      static_analysis: true
+    timeout_secs: 600
+
 workflows:
   - id: ao.security/standard
     name: "ao-skill-security Standard"
@@ -136,6 +147,23 @@ workflows:
     description: "Scan for container security issues → Review findings → Implement fixes → Push → PR"
     phases:
       - ao.security.container-scan
+      - ao.security-implement
+      - push-branch
+      - create-pr
+      - pr-review
+
+
+  - id: ao.security/ssrf-scan
+    name: "SSRF Scanner"
+    description: "Scan codebase for Server-Side Request Forgery (SSRF) vulnerabilities and generate security report"
+    phases:
+      - ao.security.ssrf-scan
+
+  - id: ao.security/ssrf-scan-and-fix
+    name: "SSRF Scan and Remediate"
+    description: "Scan for SSRF vulnerabilities → Review findings → Implement fixes → Push → PR"
+    phases:
+      - ao.security.ssrf-scan
       - ao.security-implement
       - push-branch
       - create-pr
