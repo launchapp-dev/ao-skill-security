@@ -71,10 +71,10 @@ phases:
       static_analysis: true
     timeout_secs: 600
 
-  ao.security.secrets-scan:
+  ao.security.xss-scan:
     mode: agent
-    agent: ao.security.hardcoded-secrets-agent
-    directive: "Scan the codebase for hardcoded secrets including passwords, API keys, AWS credentials, SSH keys, tokens, and other sensitive information. Analyze all source files, detect secret patterns using regex and entropy analysis, and generate a structured JSON report with findings categorized by severity (Critical/High/Medium/Low/Info) including file paths, line numbers, code snippets, and remediation guidance for each secret detected."
+    agent: ao.security.xss-scanner
+    directive: "Scan the codebase for Cross-Site Scripting (XSS) vulnerabilities. Analyze all source files, detect dangerous DOM manipulation patterns (innerHTML, dangerouslySetInnerHTML), unsafe eval/Function usage, template injection vectors, and improper sanitization. Generate a structured JSON report with findings categorized by severity. Include file paths, line numbers, code snippets, and remediation guidance for each vulnerability."
     capabilities:
       reads_code: true
       produces_artifacts: true
@@ -207,17 +207,17 @@ workflows:
       - create-pr
       - pr-review
 
-  - id: ao.security/secrets-scan
-    name: "Hardcoded Secrets Scanner"
-    description: "Scan codebase for hardcoded passwords, API keys, AWS credentials, SSH keys, tokens, and other sensitive secrets"
+  - id: ao.security/xss-scan
+    name: "XSS Scanner"
+    description: "Scan codebase for Cross-Site Scripting (XSS) vulnerabilities and generate security report"
     phases:
-      - ao.security.secrets-scan
+      - ao.security.xss-scan
 
-  - id: ao.security/secrets-scan-and-fix
-    name: "Secrets Scan and Remediate"
-    description: "Scan for hardcoded secrets → Review findings → Implement fixes → Push → PR"
+  - id: ao.security/xss-scan-and-fix
+    name: "XSS Scan and Remediate"
+    description: "Scan for XSS vulnerabilities → Review findings → Implement fixes → Push → PR"
     phases:
-      - ao.security.secrets-scan
+      - ao.security.xss-scan
       - ao.security-implement
       - push-branch
       - create-pr
