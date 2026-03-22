@@ -6,6 +6,16 @@ phases:
     capabilities:
       mutates_state: true
 
+  ao.security.generate-report:
+    mode: agent
+    agent: ao.security.report-generator
+    directive: "Collect security scanner findings and generate structured reports in JSON and SARIF formats. Aggregate findings from all scanners, deduplicate, enrich with code context and compliance mapping, and produce CI/CD-compatible output with appropriate exit codes."
+    capabilities:
+      produces_artifacts: true
+      report_generation: true
+      data_aggregation: true
+    timeout_secs: 300
+
   ao.security.sqli-scan:
     mode: agent
     agent: ao.security.sqli-scanner
@@ -49,3 +59,27 @@ workflows:
       - push-branch
       - create-pr
       - pr-review
+
+  - id: ao.security/scan-and-report
+    name: "Security Scan and Report"
+    description: "Run all security scanners → Generate structured reports in JSON and SARIF formats"
+    phases:
+      - ao.security.sqli-scan
+      - ao.security.generate-report
+
+  - id: ao.security/full-audit
+    name: "Full Security Audit"
+    description: "Comprehensive security scan → Generate reports → Review → Fix → Push → PR"
+    phases:
+      - ao.security.sqli-scan
+      - ao.security.generate-report
+      - ao.security-implement
+      - push-branch
+      - create-pr
+      - pr-review
+
+  - id: ao.security/report-only
+    name: "Generate Security Report"
+    description: "Generate structured security report from existing scanner findings"
+    phases:
+      - ao.security.generate-report
