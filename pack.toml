@@ -34,6 +34,8 @@ exports = [
   "ao.security/ssrf-scan-and-fix",
   "ao.security/xss-scan",
   "ao.security/xss-scan-and-fix",
+  "ao.security/command-injection-scan",
+  "ao.security/command-injection-scan-and-fix",
 ]
 
 [runtime]
@@ -49,3 +51,4 @@ security_report = { path = "skills/security-report.md", description = "Generate 
 container_scanner = { path = "skills/container-security-scanner.md", description = "Dockerfile and docker-compose security analysis for container vulnerabilities" }
 ssrf_scanner = { path = "skills/ssrf-scanner.md", description = "SSRF (Server-Side Request Forgery) vulnerability detection via static analysis of URL handling patterns" }
 xss_scanner = { path = "skills/xss-scanner.md", description = "XSS (Cross-Site Scripting) vulnerability detection via static analysis of HTML/JS rendering patterns" }
+command_injection_scanner = { path = "skills/command-injection-scanner.md", description = "OS command injection vulnerability detection via static analysis of shell command execution patterns" }

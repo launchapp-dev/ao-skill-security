@@ -82,6 +82,17 @@ phases:
       static_analysis: true
     timeout_secs: 600
 
+  ao.security.command-injection-scan:
+    mode: agent
+    agent: ao.security.command-injection-scanner
+    directive: "Scan the codebase for OS command injection vulnerabilities. Analyze all source files, detect dangerous shell command patterns (subprocess with shell=True, exec(), system(), child_process.exec(), Runtime.exec()), trace user input to command execution sinks, and generate a structured JSON report with findings categorized by severity (Critical/High/Medium/Low/Info) including file paths, line numbers, code snippets, and remediation guidance for each vulnerability."
+    capabilities:
+      reads_code: true
+      produces_artifacts: true
+      security_scanning: true
+      static_analysis: true
+    timeout_secs: 600
+
 workflows:
   - id: ao.security/standard
     name: "ao-skill-security Standard"
@@ -218,6 +229,22 @@ workflows:
     description: "Scan for XSS vulnerabilities → Review findings → Implement fixes → Push → PR"
     phases:
       - ao.security.xss-scan
+      - ao.security-implement
+      - push-branch
+      - create-pr
+      - pr-review
+
+  - id: ao.security/command-injection-scan
+    name: "Command Injection Scanner"
+    description: "Scan codebase for OS command injection vulnerabilities and generate security report"
+    phases:
+      - ao.security.command-injection-scan
+
+  - id: ao.security/command-injection-scan-and-fix
+    name: "Command Injection Scan and Remediate"
+    description: "Scan for command injection vulnerabilities → Review findings → Implement fixes → Push → PR"
+    phases:
+      - ao.security.command-injection-scan
       - ao.security-implement
       - push-branch
       - create-pr
