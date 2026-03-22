@@ -251,7 +251,7 @@ services:
   db:
     environment:
       - POSTGRES_PASSWORD=mysecretpassword
-      - AWS_ACCESS_KEY_ID=AKIA...
+      - AWS_ACCESS_KEY_ID=AKIAXXXXXXXXXXXXXXXXXX
 ```
 
 **Severity:** HIGH
