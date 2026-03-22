@@ -71,6 +71,17 @@ phases:
       static_analysis: true
     timeout_secs: 600
 
+  ao.security.secrets-scan:
+    mode: agent
+    agent: ao.security.hardcoded-secrets-agent
+    directive: "Scan the codebase for hardcoded secrets including passwords, API keys, AWS credentials, SSH keys, tokens, and other sensitive information. Analyze all source files, detect secret patterns using regex and entropy analysis, and generate a structured JSON report with findings categorized by severity (Critical/High/Medium/Low/Info) including file paths, line numbers, code snippets, and remediation guidance for each secret detected."
+    capabilities:
+      reads_code: true
+      produces_artifacts: true
+      security_scanning: true
+      static_analysis: true
+    timeout_secs: 600
+
 workflows:
   - id: ao.security/standard
     name: "ao-skill-security Standard"
@@ -191,6 +202,22 @@ workflows:
     description: "Scan for SSRF vulnerabilities → Review findings → Implement fixes → Push → PR"
     phases:
       - ao.security.ssrf-scan
+      - ao.security-implement
+      - push-branch
+      - create-pr
+      - pr-review
+
+  - id: ao.security/secrets-scan
+    name: "Hardcoded Secrets Scanner"
+    description: "Scan codebase for hardcoded passwords, API keys, AWS credentials, SSH keys, tokens, and other sensitive secrets"
+    phases:
+      - ao.security.secrets-scan
+
+  - id: ao.security/secrets-scan-and-fix
+    name: "Secrets Scan and Remediate"
+    description: "Scan for hardcoded secrets → Review findings → Implement fixes → Push → PR"
+    phases:
+      - ao.security.secrets-scan
       - ao.security-implement
       - push-branch
       - create-pr
