@@ -25,6 +25,8 @@ exports = [
   "ao.security/dependency-audit-and-fix",
   "ao.security/container-scan",
   "ao.security/container-scan-and-fix",
+  "ao.security/deserialization-scan",
+  "ao.security/deserialization-scan-and-fix",
   "ao.security/scan-and-report",
   "ao.security/full-audit",
   "ao.security/report-only",
