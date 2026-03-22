@@ -6,6 +6,18 @@ phases:
     capabilities:
       mutates_state: true
 
+  ao.security.dependency-audit:
+    mode: agent
+    agent: ao.security.dependency-auditor
+    directive: "Run npm audit to scan dependencies for known CVEs and security vulnerabilities. Extract detailed CVE information, analyze severity and exploitability, assess dependency trees for transitive vulnerabilities, and generate a structured JSON report with remediation commands and version upgrade recommendations. Include CVSS scores, CVE references, and breaking change assessments."
+    capabilities:
+      reads_code: false
+      produces_artifacts: true
+      security_scanning: true
+      dependency_analysis: true
+      network_access: true
+    timeout_secs: 600
+
   ao.security.sqli-scan:
     mode: agent
     agent: ao.security.sqli-scanner
@@ -45,6 +57,22 @@ workflows:
     description: "Scan for SQL injection vulnerabilities → Review findings → Implement fixes → Push → PR"
     phases:
       - ao.security.sqli-scan
+      - ao.security-implement
+      - push-branch
+      - create-pr
+      - pr-review
+
+  - id: ao.security/dependency-audit
+    name: "Dependency Security Audit"
+    description: "Audit npm dependencies for known CVEs and security vulnerabilities"
+    phases:
+      - ao.security.dependency-audit
+
+  - id: ao.security/dependency-audit-and-fix
+    name: "Dependency Audit and Remediate"
+    description: "Audit dependencies for CVEs → Review findings → Update packages → Push → PR"
+    phases:
+      - ao.security.dependency-audit
       - ao.security-implement
       - push-branch
       - create-pr
