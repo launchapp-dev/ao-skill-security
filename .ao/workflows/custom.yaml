@@ -53,7 +53,7 @@ agents:
       - YAML syntax is valid
       Use merge_pull_request MCP to merge good PRs.
     model: minimax/MiniMax-M2.7
-    tool: oai-runner
+    tool: claude
     mcp_servers: ["ao", "github"]
 
   planner:
@@ -61,7 +61,7 @@ agents:
       Plan work for this skill pack. Read VISION.md and requirements.
       Queue max 3 tasks. Pause at 5+ open PRs.
     model: minimax/MiniMax-M2.7
-    tool: oai-runner
+    tool: claude
     mcp_servers: ["ao"]
 
 phases:
