@@ -36,6 +36,8 @@ exports = [
   "ao.security/xss-scan-and-fix",
   "ao.security/command-injection-scan",
   "ao.security/command-injection-scan-and-fix",
+  "ao.security/hardcoded-secrets-scan",
+  "ao.security/hardcoded-secrets-scan-and-fix",
 ]
 
 [runtime]
@@ -53,3 +55,4 @@ container_scanner = { path = "skills/container-security-scanner.md", description
 ssrf_scanner = { path = "skills/ssrf-scanner.md", description = "SSRF (Server-Side Request Forgery) vulnerability detection via static analysis of URL handling patterns" }
 xss_scanner = { path = "skills/xss-scanner.md", description = "XSS (Cross-Site Scripting) vulnerability detection via static analysis of HTML/JS rendering patterns" }
 command_injection_scanner = { path = "skills/command-injection-scanner.md", description = "OS command injection vulnerability detection via static analysis of shell command execution patterns" }
+hardcoded_secrets_scanner = { path = "skills/hardcoded-secrets-scanner.md", description = "Hardcoded secrets detection via static analysis of passwords, API keys, tokens, SSH keys, and connection strings" }
