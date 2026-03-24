@@ -10,7 +10,7 @@ mcp_servers:
 
 agents:
   default:
-    model: kimi-code/kimi-for-coding
+    model: kimi-for-coding
     tool: claude
 
   skill-builder:
@@ -40,7 +40,7 @@ agents:
       - Include quality standards and rules
       - Be specific about what the agent should and shouldn't do
       Do not add yourself as author or co-author.
-    model: kimi-code/kimi-for-coding
+    model: kimi-for-coding
     tool: claude
     mcp_servers: ["ao", "context7"]
 
