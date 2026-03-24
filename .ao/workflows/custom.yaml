@@ -11,7 +11,7 @@ mcp_servers:
 agents:
   default:
     model: kimi-code/kimi-for-coding
-    tool: oai-runner
+    tool: claude
 
   skill-builder:
     system_prompt: |
@@ -41,7 +41,7 @@ agents:
       - Be specific about what the agent should and shouldn't do
       Do not add yourself as author or co-author.
     model: kimi-code/kimi-for-coding
-    tool: oai-runner
+    tool: claude
     mcp_servers: ["ao", "context7"]
 
   reviewer:
