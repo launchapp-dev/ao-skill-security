@@ -47,7 +47,6 @@ agent_overlay = "runtime/agents.yaml"
 tools = ["ao", "github"]
 
 [skills]
-foundation = { path = "skills/foundation.md", description = "Core security scanner framework with common interfaces, shared data models, base patterns, and utilities for all scanners" }
 sqli_scanner = { path = "skills/sqli-scanner.md", description = "SQL injection vulnerability detection via static analysis" }
 dependency_auditor = { path = "skills/dependency-auditor.md", description = "npm dependency CVE scanning and security auditing" }
 security_report = { path = "skills/security-report.md", description = "Generate structured security reports in JSON and SARIF formats with CI/CD integration" }
